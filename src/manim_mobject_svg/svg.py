@@ -8,6 +8,7 @@ from pathlib import Path
 import cairo
 import numpy as np
 from manim import VGroup, VMobject
+from manim.utils.family import extract_mobject_family_members
 
 CAIRO_LINE_WIDTH_MULTIPLE: float = 0.01
 
@@ -148,7 +149,8 @@ def create_svg_from_vmobject(vmobject: VMobject, file_name: str | Path = None):
         file_name = tempfile.mktemp(suffix=".svg")
     file_name = Path(file_name).absolute()
     with _get_cairo_context(file_name) as ctx:
-        _create_svg_from_vmobject_internal(vmobject, ctx)
+        for _vmobject in extract_mobject_family_members([vmobject], True, True):
+            _create_svg_from_vmobject_internal(_vmobject, ctx)
     return file_name
 
 
@@ -157,6 +159,9 @@ def create_svg_from_vgroup(vgroup: VGroup, file_name: str | Path = None):
         file_name = tempfile.mktemp(suffix=".svg")
     file_name = Path(file_name).absolute()
     with _get_cairo_context(file_name) as ctx:
+        # a vgroup is a list of VMobjects which may contain other VGroups
+        # flatten the vgroup to get a list of VMobjects
+        vgroup = extract_mobject_family_members(vgroup, True, True)
         for vmobject in vgroup:
             _create_svg_from_vmobject_internal(vmobject, ctx)
     return file_name
