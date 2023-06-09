@@ -14,6 +14,7 @@ a = Square(color=BLUE)
 a.to_svg("square.svg")
 ```
 This should create a file `square.svg` in the current directory and return the path to the file. The output should look like this:
+
 ![svg square manim](https://github.com/naveen521kk/manim-mobject-svg/assets/49693820/ba232f4c-7a11-4d6f-b36e-7c49867bc6a8)
 
 It's also possible to create a SVG file for VGroup.
@@ -28,6 +29,7 @@ c = VGroup(a, b)
 c.to_svg("group.svg")
 ```
 It'll create a SVG file like this:
+
 ![svg vgroup manim](https://github.com/naveen521kk/manim-mobject-svg/assets/49693820/4073c65f-0397-450a-90d6-6a2226dade15)
 
 ## Parameters for `to_svg()`
