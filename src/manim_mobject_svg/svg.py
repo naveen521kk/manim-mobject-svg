@@ -16,13 +16,23 @@ __all__ = ["create_svg_from_vmobject", "create_svg_from_vgroup"]
 
 
 @contextmanager
-def _get_cairo_context(file_name: str | Path) -> cairo.Context:
+def _get_cairo_context(
+    file_name: str | Path,
+    width: int = None,
+    height: int = None,
+) -> cairo.Context:
     from manim import config
 
     pw = config.pixel_width
     ph = config.pixel_height
     fw = config.frame_width
     fh = config.frame_height
+    if width and height:
+        pw = int(width * pw / fw)
+        ph = int(height * ph / fh)
+        fw = width
+        fh = height
+
     fc = [0, 0]
     surface = cairo.SVGSurface(
         file_name,
@@ -144,21 +154,39 @@ def _create_svg_from_vmobject_internal(vmobject: VMobject, ctx: cairo.Content):
     _apply_stroke(ctx, vmobject)
 
 
-def create_svg_from_vmobject(vmobject: VMobject, file_name: str | Path = None):
+def create_svg_from_vmobject(
+    vmobject: VMobject,
+    file_name: str | Path = None,
+    *,
+    crop: bool = True,
+    padding: float = 0.05,
+):
     if file_name is None:
         file_name = tempfile.mktemp(suffix=".svg")
     file_name = Path(file_name).absolute()
-    with _get_cairo_context(file_name) as ctx:
+    width, height = None, None
+    if crop:
+        width, height = vmobject.width + padding, vmobject.height + padding
+    with _get_cairo_context(file_name, width=width, height=height) as ctx:
         for _vmobject in extract_mobject_family_members([vmobject], True, True):
             _create_svg_from_vmobject_internal(_vmobject, ctx)
     return file_name
 
 
-def create_svg_from_vgroup(vgroup: VGroup, file_name: str | Path = None):
+def create_svg_from_vgroup(
+    vgroup: VGroup,
+    file_name: str | Path = None,
+    *,
+    crop: bool = True,
+    padding: float = 0.05,
+):
     if file_name is None:
         file_name = tempfile.mktemp(suffix=".svg")
     file_name = Path(file_name).absolute()
-    with _get_cairo_context(file_name) as ctx:
+    width, height = None, None
+    if crop:
+        width, height = vgroup.width + padding, vgroup.height + padding
+    with _get_cairo_context(file_name, width=width, height=height) as ctx:
         # a vgroup is a list of VMobjects which may contain other VGroups
         # flatten the vgroup to get a list of VMobjects
         vgroup = extract_mobject_family_members(vgroup, True, True)
