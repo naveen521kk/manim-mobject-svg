@@ -160,7 +160,27 @@ def create_svg_from_vmobject(
     *,
     crop: bool = True,
     padding: float = 0.05,
-):
+) -> Path:
+    """create_svg_from_vmobject creates an svg from a VMobject.
+
+    Parameters
+    ----------
+    vmobject : VMobject
+        The VMobject to create an svg from.
+    file_name : str | Path, optional
+        Path to the file to save the svg to, by default None
+        which will create a temporary file and return the path.
+    crop : bool, optional
+        Whether to crop the svg, by default True
+    padding : float, optional
+        The padding around the svg, by default 0.05
+
+    Returns
+    -------
+    Path
+        The path to the svg file.
+    """
+
     if file_name is None:
         file_name = tempfile.mktemp(suffix=".svg")
     file_name = Path(file_name).absolute()
@@ -179,7 +199,26 @@ def create_svg_from_vgroup(
     *,
     crop: bool = True,
     padding: float = 0.05,
-):
+) -> Path:
+    """create_svg_from_vgroup creates an svg from a VGroup.
+
+    Parameters
+    ----------
+    vgroup : VGroup
+        The VGroup to create the svg from.
+    file_name : str | Path, optional
+        Path to the file to save the svg to, by default None
+        which will create a temporary file and return the path.
+    crop : bool, optional
+        Whether to crop the svg to the size of the VGroup, by default True
+    padding : float, optional
+        The padding to add to the svg if crop is ``True``, by default 0.05
+
+    Returns
+    -------
+    Path
+        The path to the svg file.
+    """
     if file_name is None:
         file_name = tempfile.mktemp(suffix=".svg")
     file_name = Path(file_name).absolute()
