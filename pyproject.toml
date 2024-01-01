@@ -13,7 +13,7 @@ manim = ">=0.16.0"
 pycairo = "^1"
 
 [tool.poetry.plugins."manim.plugins"]
-"manim_plugintemplate" = "manim_plugintemplate"
+"manim_mobject_svg" = "manim_mobject_svg"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.12.0"
