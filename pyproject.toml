@@ -1,14 +1,14 @@
 [tool.poetry]
 name = "manim-mobject-svg"
 version = "0.4.0"
-description = "Create SVG files from VMobject and VGroup"
+description = "Create SVG files from VMobject and VGroup in Manim"
 authors = ["Naveen M K <naveen521kk@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/naveen521kk/manim-mobject-svg"
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.12"
+python = ">=3.9,<3.13"
 manim = ">=0.16.0"
 pycairo = "^1"
 
