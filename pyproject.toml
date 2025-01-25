@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/naveen521kk/manim-mobject-svg"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<3.13"
+python = ">=3.9"
 manim = ">=0.16.0"
 pycairo = "^1"
 
